@@ -5,219 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ഷോപ്പിംഗ് ലിസ്റ്റ് - Shopping List</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;600&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Noto Sans Malayalam', Arial, sans-serif;
-            background: #f5f5f5;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .container {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background: white;
-            border: 1px solid #ddd;
-        }
-
-        .header {
-            background: #2c3e50;
-            color: white;
-            padding: 15px 20px;
-            border-bottom: 2px solid #34495e;
-            flex-shrink: 0;
-        }
-
-        .header h1 {
-            font-size: 1.8em;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        .toolbar {
-            background: #ecf0f1;
-            padding: 15px 20px;
-            border-bottom: 1px solid #bdc3c7;
-            flex-shrink: 0;
-        }
-
-        .input-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr auto auto;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .input-row input, .input-row select {
-            padding: 8px 12px;
-            border: 1px solid #bdc3c7;
-            font-size: 14px;
-            font-family: inherit;
-            background: white;
-        }
-
-        .btn {
-            padding: 8px 16px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            font-family: inherit;
-        }
-
-        .btn-primary {
-            background: #3498db;
-            color: white;
-        }
-
-        .btn-success {
-            background: #27ae60;
-            color: white;
-        }
-
-        .btn-danger {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-        }
-
-        .table-container {
-            flex: 1;
-            overflow: auto;
-            border-top: 1px solid #bdc3c7;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
-
-        .table th {
-            background: #34495e;
-            color: white;
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 2px solid #2c3e50;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        .table td {
-            padding: 10px 15px;
-            border-bottom: 1px solid #ecf0f1;
-            vertical-align: middle;
-        }
-
-        .table tbody tr:hover {
-            background: #f8f9fa;
-        }
-
-        .table tbody tr:nth-child(even) {
-            background: #fdfdfd;
-        }
-
-        .table tbody tr:nth-child(even):hover {
-            background: #f0f0f0;
-        }
-
-        .item-name {
-            font-weight: 500;
-            color: #2c3e50;
-        }
-
-        .quantity {
-            text-align: center;
-            font-weight: 500;
-        }
-
-        .unit {
-            text-align: center;
-            color: #7f8c8d;
-        }
-
-        .actions {
-            text-align: center;
-        }
-
-        .delete-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            cursor: pointer;
-            font-size: 12px;
-            border-radius: 3px;
-        }
-
-        .delete-btn:hover {
-            background: #c0392b;
-        }
-
-        .footer {
-            background: #ecf0f1;
-            padding: 15px 20px;
-            border-top: 1px solid #bdc3c7;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .item-count {
-            font-weight: 500;
-            color: #2c3e50;
-        }
-
-        .footer-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #7f8c8d;
-        }
-
-        .empty-state h3 {
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans Malayalam', Arial, sans-serif; background: #f5f5f5; height: 100vh; overflow: auto; }
+        .container { display: flex; flex-direction: column; background: white; border: 1px solid #ddd; margin: 10px; padding: 10px; }
+        .header { background: #2c3e50; color: white; padding: 15px 20px; border-bottom: 2px solid #34495e; flex-shrink: 0; }
+        .header h1 { font-size: 1.8em; font-weight: 600; text-align: center; }
+        .toolbar { background: #ecf0f1; padding: 15px 20px; border-bottom: 1px solid #bdc3c7; flex-shrink: 0; }
+        .input-row { display: grid; grid-template-columns: 2fr 1fr 1fr auto auto; gap: 10px; align-items: center; }
+        .input-row input, .input-row select { padding: 8px 12px; border: 1px solid #bdc3c7; font-size: 14px; font-family: inherit; background: white; }
+        .btn { padding: 8px 16px; border: none; cursor: pointer; font-size: 14px; font-weight: 500; font-family: inherit; }
+        .btn-primary { background: #3498db; color: white; }
+        .btn-success { background: #27ae60; color: white; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn:hover { opacity: 0.9; }
+        .table-container { overflow: auto; border-top: 1px solid #bdc3c7; margin-bottom: 10px; }
+        .table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .table th { background: #34495e; color: white; padding: 12px 15px; text-align: left; border-bottom: 2px solid #2c3e50; position: sticky; top: 0; z-index: 10; }
+        .table td { padding: 10px 15px; border-bottom: 1px solid #ecf0f1; vertical-align: middle; }
+        .table tbody tr:hover { background: #f8f9fa; }
+        .table tbody tr:nth-child(even) { background: #fdfdfd; }
+        .table tbody tr:nth-child(even):hover { background: #f0f0f0; }
+        .item-name { font-weight: 500; color: #2c3e50; }
+        .quantity { text-align: center; font-weight: 500; }
+        .unit { text-align: center; color: #7f8c8d; }
+        .actions { text-align: center; }
+        .delete-btn { background: #e74c3c; color: white; border: none; padding: 6px 12px; cursor: pointer; font-size: 12px; border-radius: 3px; }
+        .delete-btn:hover { background: #c0392b; }
+        .footer { background: #ecf0f1; padding: 15px 20px; border-top: 1px solid #bdc3c7; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; margin-bottom:10px; }
+        .item-count { font-weight: 500; color: #2c3e50; }
+        .footer-actions { display: flex; gap: 10px; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #7f8c8d; }
+        .empty-state h3 { margin-bottom: 10px; font-weight: 500; }
+        .print-preview-container { margin-top: 10px; }
+        .print-preview-container h2 { text-align: center; margin-bottom: 10px; }
+        #printPreview table { width: 100%; border-collapse: collapse; }
+        #printPreview th, #printPreview td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; }
+        #printPreview th { background: #f5f5f5; font-weight: 600; }
         @media (max-width: 768px) {
-            .input-row {
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-            
-            .footer {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .footer-actions {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .table th,
-            .table td {
-                padding: 8px 10px;
-                font-size: 13px;
-            }
+            .input-row { grid-template-columns: 1fr; gap: 8px; }
+            .footer { flex-direction: column; gap: 10px; }
+            .footer-actions { width: 100%; justify-content: center; }
+            .table th, .table td { padding: 8px 10px; font-size: 13px; }
         }
     </style>
 </head>
@@ -246,11 +75,11 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th style="width: 5%">ക്രമം<br>No.</th>
-                        <th style="width: 50%">സാധനം<br>Item</th>
-                        <th style="width: 15%">അളവ്<br>Quantity</th>
-                        <th style="width: 15%">യൂണിറ്റ്<br>Unit</th>
-                        <th style="width: 15%">പ്രവർത്തനം<br>Action</th>
+                        <th style="width: 5%">क्रम / No.</th>
+                        <th style="width: 50%">സാധനം / Item</th>
+                        <th style="width: 15%">അളവ് / Quantity</th>
+                        <th style="width: 15%">യൂണിറ്റ് / Unit</th>
+                        <th style="width: 15%">പ്രവർത്തനം / Action</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -271,8 +100,15 @@
                 മൊത്തം ഇനങ്ങൾ / Total Items: <span id="totalCount">0</span>
             </div>
             <div class="footer-actions">
-                <button class="btn btn-primary" onclick="exportToPDF()">PDF Export</button>
                 <button class="btn btn-primary" onclick="printList()">Print</button>
+            </div>
+        </div>
+
+        <!-- Live Print Preview -->
+        <div class="print-preview-container">
+            <h2>പ്രിന്റ് പ്രിവ്യൂ / Print Preview</h2>
+            <div id="printPreview" style="border:1px solid #ddd; padding:10px; background:#f9f9f9;">
+                <p>ഇനങ്ങൾ ചേർക്കുക / Add items to see preview</p>
             </div>
         </div>
     </div>
@@ -292,14 +128,7 @@
                 return;
             }
 
-            const item = {
-                id: nextId++,
-                name: name,
-                quantity: quantity,
-                unit: unit
-            };
-
-            shoppingList.push(item);
+            shoppingList.push({ id: nextId++, name, quantity, unit });
             updateTable();
             clearForm();
         }
@@ -311,7 +140,6 @@
 
         function clearAll() {
             if (shoppingList.length === 0) return;
-            
             if (confirm('എല്ലാ ഇനങ്ങളും മായ്ക്കാൻ ഉറപ്പാണോ? / Clear all items?')) {
                 shoppingList = [];
                 nextId = 1;
@@ -322,7 +150,6 @@
         function updateTable() {
             const tbody = document.getElementById('tableBody');
             const totalCount = document.getElementById('totalCount');
-
             totalCount.textContent = shoppingList.length;
 
             if (shoppingList.length === 0) {
@@ -344,13 +171,13 @@
                         <td class="quantity">${item.quantity}</td>
                         <td class="unit">${item.unit.toUpperCase()}</td>
                         <td class="actions">
-                            <button class="delete-btn" onclick="removeItem(${item.id})">
-                                മായ്ക്കുക / Delete
-                            </button>
+                            <button class="delete-btn" onclick="removeItem(${item.id})">മായ്ക്കുക / Delete</button>
                         </td>
                     </tr>
                 `).join('');
             }
+
+            updatePrintPreview();
         }
 
         function clearForm() {
@@ -360,66 +187,28 @@
             document.getElementById('itemName').focus();
         }
 
-        function exportToPDF() {
+        // Live Print Preview
+        function updatePrintPreview() {
+            const preview = document.getElementById('printPreview');
+
             if (shoppingList.length === 0) {
-                alert('PDF ഉണ്ടാക്കാൻ ഇനങ്ങൾ ചേർക്കുക / Add items to create PDF');
+                preview.innerHTML = '<p>ഇനങ്ങൾ ചേർക്കുക / Add items to see preview</p>';
                 return;
             }
 
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            // Title
-            doc.setFontSize(20);
-            doc.text('Shopping List', 105, 20, { align: 'center' });
-            
-            const today = new Date().toLocaleDateString('en-GB');
-            doc.setFontSize(12);
-            doc.text(`Date: ${today}`, 105, 30, { align: 'center' });
-
-            // Table headers
-            doc.setFontSize(14);
-            doc.text('No.', 20, 50);
-            doc.text('Item Name', 40, 50);
-            doc.text('Quantity', 140, 50);
-            doc.text('Unit', 170, 50);
-
-            // Table content
-            doc.setFontSize(12);
-            let y = 65;
+            let html = `<table>
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Item Name</th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
             shoppingList.forEach((item, index) => {
-                if (y > 270) {
-                    doc.addPage();
-                    y = 20;
-                }
-                
-                doc.text((index + 1).toString(), 20, y);
-                doc.text(item.name, 40, y);
-                doc.text(item.quantity.toString(), 140, y);
-                doc.text(item.unit.toUpperCase(), 170, y);
-                y += 12;
-            });
-
-            // Footer
-            doc.setFontSize(10);
-            doc.text(`Total Items: ${shoppingList.length}`, 20, y + 20);
-            doc.text('Generated by Shopping List Maker', 105, 285, { align: 'center' });
-
-            doc.save('shopping-list.pdf');
-        }
-
-        function printList() {
-            if (shoppingList.length === 0) {
-                alert('പ്രിന്റ് ചെയ്യാൻ ഇനങ്ങൾ ചേർക്കുക / Add items to print');
-                return;
-            }
-
-            const printWindow = window.open('', '_blank');
-            const today = new Date().toLocaleDateString('ml-IN');
-            
-            let itemsHtml = '';
-            shoppingList.forEach((item, index) => {
-                itemsHtml += `
+                html += `
                     <tr>
                         <td>${index + 1}</td>
                         <td>${item.name}</td>
@@ -428,66 +217,45 @@
                     </tr>
                 `;
             });
+            html += `</tbody></table><p>Total Items: ${shoppingList.length}</p>`;
+            preview.innerHTML = html;
+        }
 
+        function printList() {
+            const printContents = document.getElementById('printPreview').innerHTML;
+            const printWindow = window.open('', '_blank');
             printWindow.document.write(`
                 <html>
                     <head>
-                        <title>Shopping List</title>
+                        <title>Print Shopping List</title>
                         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;600&display=swap" rel="stylesheet">
                         <style>
-                            body { font-family: 'Noto Sans Malayalam', Arial, sans-serif; margin: 20px; }
-                            h1 { text-align: center; margin-bottom: 5px; }
-                            .date { text-align: center; margin-bottom: 20px; color: #666; }
-                            table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-                            th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-                            th { background: #f5f5f5; font-weight: 600; }
-                            .footer { text-align: center; color: #666; font-size: 12px; }
+                            body { font-family: 'Noto Sans Malayalam', Arial, sans-serif; margin:20px; }
+                            table { width:100%; border-collapse: collapse; }
+                            th, td { border:1px solid #ddd; padding:8px; text-align:left; }
+                            th { background:#f5f5f5; font-weight:600; }
+                            p { margin-top:10px; font-weight:500; }
                         </style>
                     </head>
                     <body>
-                        <h1>ഷോപ്പിംഗ് ലിസ്റ്റ് / Shopping List</h1>
-                        <div class="date">തീയതി / Date: ${today}</div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Item Name</th>
-                                    <th>Quantity</th>
-                                    <th>Unit</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${itemsHtml}
-                            </tbody>
-                        </table>
-                        <div class="footer">
-                            <p>Total Items: ${shoppingList.length}</p>
-                        </div>
+                        <h1 style="text-align:center;">ഷോപ്പിംഗ് ലിസ്റ്റ് / Shopping List</h1>
+                        ${printContents}
                     </body>
                 </html>
             `);
-            
             printWindow.document.close();
             printWindow.print();
         }
 
         // Keyboard shortcuts
         document.getElementById('itemName').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                document.getElementById('itemQuantity').focus();
-            }
+            if (e.key === 'Enter') document.getElementById('itemQuantity').focus();
         });
-
         document.getElementById('itemQuantity').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                document.getElementById('itemUnit').focus();
-            }
+            if (e.key === 'Enter') document.getElementById('itemUnit').focus();
         });
-
         document.getElementById('itemUnit').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                addItem();
-            }
+            if (e.key === 'Enter') addItem();
         });
 
         // Initialize
