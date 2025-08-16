@@ -4,337 +4,219 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ഷോപ്പിംഗ് ലിസ്റ്റ് - Shopping List</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Noto Sans Malayalam', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            font-family: 'Noto Sans Malayalam', Arial, sans-serif;
+            background: #f5f5f5;
+            height: 100vh;
             overflow: hidden;
         }
 
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border: 1px solid #ddd;
+        }
+
         .header {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background: #2c3e50;
             color: white;
-            padding: 30px;
-            text-align: center;
+            padding: 15px 20px;
+            border-bottom: 2px solid #34495e;
+            flex-shrink: 0;
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 1.8em;
             font-weight: 600;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .content {
-            padding: 40px;
-        }
-
-        .input-section {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 2px solid #e9ecef;
-        }
-
-        .input-group {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr auto;
-            gap: 15px;
-            margin-bottom: 20px;
-            align-items: end;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #495057;
-            font-size: 1.1em;
-        }
-
-        .form-group input {
-            padding: 12px 15px;
-            border: 2px solid #dee2e6;
-            border-radius: 10px;
-            font-size: 1em;
-            font-family: 'Noto Sans Malayalam', sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        .form-group select {
-            padding: 12px 15px;
-            border: 2px solid #dee2e6;
-            border-radius: 10px;
-            font-size: 1em;
-            font-family: 'Noto Sans Malayalam', sans-serif;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .form-group select:focus {
-            outline: none;
-            border-color: #4facfe;
-            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
-        }
-
-        .add-btn {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            font-family: 'Noto Sans Malayalam', sans-serif;
-        }
-
-        .add-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.3);
-        }
-
-        .shopping-list {
-            background: white;
-            border-radius: 15px;
-            border: 2px solid #e9ecef;
-            min-height: 200px;
-        }
-
-        .list-header {
-            background: #f8f9fa;
-            padding: 20px;
-            border-bottom: 2px solid #e9ecef;
-            border-radius: 13px 13px 0 0;
-        }
-
-        .list-header h3 {
-            color: #495057;
-            font-size: 1.3em;
             text-align: center;
         }
 
-        .list-items {
-            padding: 20px;
+        .toolbar {
+            background: #ecf0f1;
+            padding: 15px 20px;
+            border-bottom: 1px solid #bdc3c7;
+            flex-shrink: 0;
         }
 
-        .list-item {
-            display: flex;
-            justify-content: space-between;
+        .input-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto auto;
+            gap: 10px;
             align-items: center;
-            padding: 15px;
-            margin-bottom: 10px;
+        }
+
+        .input-row input, .input-row select {
+            padding: 8px 12px;
+            border: 1px solid #bdc3c7;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .table-container {
+            flex: 1;
+            overflow: auto;
+            border-top: 1px solid #bdc3c7;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .table th {
+            background: #34495e;
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 2px solid #2c3e50;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #ecf0f1;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:hover {
             background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #4facfe;
-            transition: all 0.3s ease;
         }
 
-        .list-item:hover {
-            background: #e9ecef;
-            transform: translateX(5px);
+        .table tbody tr:nth-child(even) {
+            background: #fdfdfd;
         }
 
-        .item-info {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
+        .table tbody tr:nth-child(even):hover {
+            background: #f0f0f0;
         }
 
         .item-name {
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #212529;
-            margin-bottom: 5px;
+            font-weight: 500;
+            color: #2c3e50;
         }
 
-        .item-quantity {
-            color: #6c757d;
-            font-size: 0.9em;
+        .quantity {
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .unit {
+            text-align: center;
+            color: #7f8c8d;
+        }
+
+        .actions {
+            text-align: center;
         }
 
         .delete-btn {
-            background: #dc3545;
+            background: #e74c3c;
             color: white;
             border: none;
-            padding: 8px 12px;
-            border-radius: 8px;
+            padding: 6px 12px;
             cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.2s ease;
+            font-size: 12px;
+            border-radius: 3px;
         }
 
         .delete-btn:hover {
-            background: #c82333;
-            transform: scale(1.05);
+            background: #c0392b;
+        }
+
+        .footer {
+            background: #ecf0f1;
+            padding: 15px 20px;
+            border-top: 1px solid #bdc3c7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .item-count {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .footer-actions {
+            display: flex;
+            gap: 10px;
         }
 
         .empty-state {
             text-align: center;
-            padding: 40px;
-            color: #6c757d;
+            padding: 60px 20px;
+            color: #7f8c8d;
         }
 
-        .empty-state svg {
-            margin-bottom: 15px;
-            opacity: 0.5;
-        }
-
-        .actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            justify-content: center;
-        }
-
-        .pdf-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Noto Sans Malayalam', sans-serif;
-        }
-
-        .pdf-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .clear-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Noto Sans Malayalam', sans-serif;
-        }
-
-        .clear-btn:hover {
-            background: #c82333;
-            transform: translateY(-2px);
-        }
-
-        .print-view {
-            display: none;
-        }
-
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            .print-view, .print-view * {
-                visibility: visible;
-            }
-            .print-view {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                font-family: 'Noto Sans Malayalam', sans-serif;
-                font-size: 14px;
-                line-height: 1.6;
-                color: #000;
-                background: white;
-                padding: 20mm;
-                display: block !important;
-                height: auto;
-                max-height: none;
-            }
-            .print-header {
-                text-align: center;
-                margin-bottom: 30px;
-                border-bottom: 2px solid #000;
-                padding-bottom: 20px;
-            }
-            .print-header h1 {
-                font-size: 24px;
-                margin-bottom: 10px;
-                color: #000;
-            }
-            .print-header h2 {
-                font-size: 18px;
-                color: #333;
-                margin-bottom: 15px;
-            }
-            .print-content {
-                margin-bottom: 20px;
-            }
-            .print-item {
-                margin-bottom: 12px;
-                padding: 8px 0;
-                border-bottom: 1px solid #ddd;
-                page-break-inside: avoid;
-            }
-            .print-item-name {
-                font-size: 16px;
-                font-weight: bold;
-            }
-            .print-footer {
-                margin-top: 20px;
-                border-top: 1px solid #ccc;
-                padding-top: 15px;
-                text-align: center;
-                color: #666;
-                font-size: 12px;
-            }
-            @page {
-                margin: 20mm;
-                size: A4;
-            }
+        .empty-state h3 {
+            margin-bottom: 10px;
+            font-weight: 500;
         }
 
         @media (max-width: 768px) {
-            .input-group {
+            .input-row {
                 grid-template-columns: 1fr;
-                gap: 15px;
+                gap: 8px;
             }
             
-            .header h1 {
-                font-size: 2em;
-            }
-            
-            .content {
-                padding: 20px;
-            }
-            
-            .actions {
+            .footer {
                 flex-direction: column;
+                gap: 10px;
+            }
+            
+            .footer-actions {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .table th,
+            .table td {
+                padding: 8px 10px;
+                font-size: 13px;
             }
         }
     </style>
@@ -342,206 +224,273 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>ഷോപ്പിംഗ് ലിസ്റ്റ്</h1>
-            <p>Shopping List Maker</p>
+            <h1>ഷോപ്പിംഗ് ലിസ്റ്റ് / Shopping List</h1>
         </div>
 
-        <div class="content">
-            <div class="input-section">
-                <div class="input-group">
-                    <div class="form-group">
-                        <label for="itemName">സാധനത്തിന്റെ പേര് / Item Name:</label>
-                        <input type="text" id="itemName" placeholder="ഉദാ: അരി, പഞ്ചസാര... / e.g: Rice, Sugar...">
-                    </div>
-                    <div class="form-group">
-                        <label for="itemQuantity">അളവ് / Quantity:</label>
-                        <input type="text" id="itemQuantity" placeholder="ഉദാ: 1, 2... / e.g: 1, 2..." inputmode="numeric">
-                    </div>
-                    <div class="form-group">
-                        <label for="itemUnit">യൂണിറ്റ് / Unit:</label>
-                        <select id="itemUnit">
-                            <option value="kg">കിലോ / kg</option>
-                            <option value="nos">എണ്ണം / nos</option>
-                        </select>
-                    </div>
-                    <button class="add-btn" onclick="addItem()">ചേർക്കുക / Add</button>
-                </div>
-            </div>
-
-            <div class="shopping-list">
-                <div class="list-header">
-                    <h3>എന്റെ ഷോപ്പിംഗ് ലിസ്റ്റ് / My Shopping List</h3>
-                </div>
-                <div class="list-items" id="listItems">
-                    <div class="empty-state">
-                        <svg width="64" height="64" fill="#6c757d" viewBox="0 0 24 24">
-                            <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z"/>
-                        </svg>
-                        <p>നിങ്ങളുടെ ഷോപ്പിംഗ് ലിസ്റ്റ് ഇപ്പോൾ ശൂന്യമാണ്</p>
-                        <p>Your shopping list is currently empty</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="actions">
-                <button class="pdf-btn" onclick="printList()" id="pdfBtn" disabled>
-                    PDF ആയി പ്രിന്റ് ചെയ്യുക / Print as PDF
-                </button>
-                <button class="clear-btn" onclick="clearList()" id="clearBtn" disabled>
-                    ലിസ്റ്റ് മായ്ക്കുക / Clear List
-                </button>
+        <div class="toolbar">
+            <div class="input-row">
+                <input type="text" id="itemName" placeholder="സാധനത്തിന്റെ പേര് / Item Name">
+                <input type="number" id="itemQuantity" placeholder="അളവ് / Qty" min="0.1" step="0.1" value="1">
+                <select id="itemUnit">
+                    <option value="kg">കിലോ / KG</option>
+                    <option value="nos">എണ്ണം / Nos</option>
+                    <option value="ltr">ലിറ്റർ / Ltr</option>
+                    <option value="gm">ഗ്രാം / Gm</option>
+                </select>
+                <button class="btn btn-success" onclick="addItem()">ചേർക്കുക / Add</button>
+                <button class="btn btn-danger" onclick="clearAll()">മായ്ക്കുക / Clear</button>
             </div>
         </div>
 
-        <!-- Hidden print view -->
-        <div class="print-view" id="printView">
-            <!-- Content will be dynamically generated -->
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">ക്രമം<br>No.</th>
+                        <th style="width: 50%">സാധനം<br>Item</th>
+                        <th style="width: 15%">അളവ്<br>Quantity</th>
+                        <th style="width: 15%">യൂണിറ്റ്<br>Unit</th>
+                        <th style="width: 15%">പ്രവർത്തനം<br>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state">
+                                <h3>ഇനങ്ങളൊന്നുമില്ല / No Items</h3>
+                                <p>മുകളിൽ ഇനങ്ങൾ ചേർക്കുക / Add items above</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <div class="item-count">
+                മൊത്തം ഇനങ്ങൾ / Total Items: <span id="totalCount">0</span>
+            </div>
+            <div class="footer-actions">
+                <button class="btn btn-primary" onclick="exportToPDF()">PDF Export</button>
+                <button class="btn btn-primary" onclick="printList()">Print</button>
+            </div>
         </div>
     </div>
 
     <script>
         let shoppingList = [];
+        let nextId = 1;
 
         function addItem() {
-            const itemName = document.getElementById('itemName').value.trim();
-            const itemQuantity = document.getElementById('itemQuantity').value.trim();
-            const itemUnit = document.getElementById('itemUnit').value;
+            const name = document.getElementById('itemName').value.trim();
+            const quantity = parseFloat(document.getElementById('itemQuantity').value) || 1;
+            const unit = document.getElementById('itemUnit').value;
 
-            if (itemName === '') {
+            if (!name) {
                 alert('സാധനത്തിന്റെ പേര് നൽകുക / Please enter item name');
+                document.getElementById('itemName').focus();
                 return;
             }
 
             const item = {
-                id: Date.now(),
-                name: itemName,
-                quantity: itemQuantity || '1',
-                unit: itemUnit
+                id: nextId++,
+                name: name,
+                quantity: quantity,
+                unit: unit
             };
 
             shoppingList.push(item);
-            updateDisplay();
-            clearInputs();
+            updateTable();
+            clearForm();
         }
 
         function removeItem(id) {
             shoppingList = shoppingList.filter(item => item.id !== id);
-            updateDisplay();
+            updateTable();
         }
 
-        function clearList() {
-            if (confirm('ലിസ്റ്റ് മായ്ക്കാൻ ഉറപ്പാണോ? / Are you sure you want to clear the list?')) {
+        function clearAll() {
+            if (shoppingList.length === 0) return;
+            
+            if (confirm('എല്ലാ ഇനങ്ങളും മായ്ക്കാൻ ഉറപ്പാണോ? / Clear all items?')) {
                 shoppingList = [];
-                updateDisplay();
+                nextId = 1;
+                updateTable();
             }
         }
 
-        function updateDisplay() {
-            const listItemsContainer = document.getElementById('listItems');
-            const pdfBtn = document.getElementById('pdfBtn');
-            const clearBtn = document.getElementById('clearBtn');
+        function updateTable() {
+            const tbody = document.getElementById('tableBody');
+            const totalCount = document.getElementById('totalCount');
+
+            totalCount.textContent = shoppingList.length;
 
             if (shoppingList.length === 0) {
-                listItemsContainer.innerHTML = `
-                    <div class="empty-state">
-                        <svg width="64" height="64" fill="#6c757d" viewBox="0 0 24 24">
-                            <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z"/>
-                        </svg>
-                        <p>നിങ്ങളുടെ ഷോപ്പിംഗ് ലിസ്റ്റ് ഇപ്പോൾ ശൂന്യമാണ്</p>
-                        <p>Your shopping list is currently empty</p>
-                    </div>
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state">
+                                <h3>ഇനങ്ങളൊന്നുമില്ല / No Items</h3>
+                                <p>മുകളിൽ ഇനങ്ങൾ ചേർക്കുക / Add items above</p>
+                            </div>
+                        </td>
+                    </tr>
                 `;
-                pdfBtn.disabled = true;
-                clearBtn.disabled = true;
             } else {
-                listItemsContainer.innerHTML = shoppingList.map(item => `
-                    <div class="list-item">
-                        <div class="item-info">
-                            <div class="item-name">${item.name}</div>
-                            <div class="item-quantity">അളവ് / Quantity: ${item.quantity} ${item.unit}</div>
-                        </div>
-                        <button class="delete-btn" onclick="removeItem(${item.id})">മായ്ക്കുക / Delete</button>
-                    </div>
+                tbody.innerHTML = shoppingList.map((item, index) => `
+                    <tr>
+                        <td class="quantity">${index + 1}</td>
+                        <td class="item-name">${item.name}</td>
+                        <td class="quantity">${item.quantity}</td>
+                        <td class="unit">${item.unit.toUpperCase()}</td>
+                        <td class="actions">
+                            <button class="delete-btn" onclick="removeItem(${item.id})">
+                                മായ്ക്കുക / Delete
+                            </button>
+                        </td>
+                    </tr>
                 `).join('');
-                pdfBtn.disabled = false;
-                clearBtn.disabled = false;
             }
         }
 
-        function clearInputs() {
+        function clearForm() {
             document.getElementById('itemName').value = '';
-            document.getElementById('itemQuantity').value = '';
+            document.getElementById('itemQuantity').value = '1';
             document.getElementById('itemUnit').value = 'kg';
             document.getElementById('itemName').focus();
         }
 
-        function printList() {
+        function exportToPDF() {
             if (shoppingList.length === 0) {
-                alert('PDF സൃഷ്ടിക്കാൻ കുറച്ച് ഇനങ്ങൾ ചേർക്കുക / Add some items to create PDF');
+                alert('PDF ഉണ്ടാക്കാൻ ഇനങ്ങൾ ചേർക്കുക / Add items to create PDF');
                 return;
             }
 
-            // Generate print content
-            const printView = document.getElementById('printView');
-            const today = new Date().toLocaleDateString('ml-IN', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Title
+            doc.setFontSize(20);
+            doc.text('Shopping List', 105, 20, { align: 'center' });
+            
+            const today = new Date().toLocaleDateString('en-GB');
+            doc.setFontSize(12);
+            doc.text(`Date: ${today}`, 105, 30, { align: 'center' });
+
+            // Table headers
+            doc.setFontSize(14);
+            doc.text('No.', 20, 50);
+            doc.text('Item Name', 40, 50);
+            doc.text('Quantity', 140, 50);
+            doc.text('Unit', 170, 50);
+
+            // Table content
+            doc.setFontSize(12);
+            let y = 65;
+            shoppingList.forEach((item, index) => {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                }
+                
+                doc.text((index + 1).toString(), 20, y);
+                doc.text(item.name, 40, y);
+                doc.text(item.quantity.toString(), 140, y);
+                doc.text(item.unit.toUpperCase(), 170, y);
+                y += 12;
             });
+
+            // Footer
+            doc.setFontSize(10);
+            doc.text(`Total Items: ${shoppingList.length}`, 20, y + 20);
+            doc.text('Generated by Shopping List Maker', 105, 285, { align: 'center' });
+
+            doc.save('shopping-list.pdf');
+        }
+
+        function printList() {
+            if (shoppingList.length === 0) {
+                alert('പ്രിന്റ് ചെയ്യാൻ ഇനങ്ങൾ ചേർക്കുക / Add items to print');
+                return;
+            }
+
+            const printWindow = window.open('', '_blank');
+            const today = new Date().toLocaleDateString('ml-IN');
             
             let itemsHtml = '';
             shoppingList.forEach((item, index) => {
-                const unit = item.unit === 'kg' ? 'KG' : 'Nos';
                 itemsHtml += `
-                    <div class="print-item">
-                        <div class="print-item-name">
-                            ${item.name} ${item.quantity} ${unit}
-                        </div>
-                    </div>
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${item.name}</td>
+                        <td>${item.quantity}</td>
+                        <td>${item.unit.toUpperCase()}</td>
+                    </tr>
                 `;
             });
-            
-            printView.innerHTML = `
-                <div class="print-header">
-                    <h1>ഷോപ്പിംഗ് ലിസ്റ്റ്</h1>
-                    <h2>Shopping List</h2>
-                    <div>തീയതി / Date: ${today}</div>
-                </div>
-                
-                <div class="print-content">
-                    ${itemsHtml}
-                </div>
-                
-                <div class="print-footer">
-                    <p>മൊത്തം ഇനങ്ങൾ / Total Items: ${shoppingList.length}</p>
-                    <p>Generated by Malayalam Shopping List Maker</p>
-                </div>
-            `;
 
-            // Trigger print dialog
-            window.print();
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Shopping List</title>
+                        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;600&display=swap" rel="stylesheet">
+                        <style>
+                            body { font-family: 'Noto Sans Malayalam', Arial, sans-serif; margin: 20px; }
+                            h1 { text-align: center; margin-bottom: 5px; }
+                            .date { text-align: center; margin-bottom: 20px; color: #666; }
+                            table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                            th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+                            th { background: #f5f5f5; font-weight: 600; }
+                            .footer { text-align: center; color: #666; font-size: 12px; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>ഷോപ്പിംഗ് ലിസ്റ്റ് / Shopping List</h1>
+                        <div class="date">തീയതി / Date: ${today}</div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Item Name</th>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${itemsHtml}
+                            </tbody>
+                        </table>
+                        <div class="footer">
+                            <p>Total Items: ${shoppingList.length}</p>
+                        </div>
+                    </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.print();
         }
 
-        // Add event listeners for Enter key
-        document.getElementById('itemName').addEventListener('keypress', function(e) {
+        // Keyboard shortcuts
+        document.getElementById('itemName').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 document.getElementById('itemQuantity').focus();
             }
         });
 
-        document.getElementById('itemQuantity').addEventListener('keypress', function(e) {
+        document.getElementById('itemQuantity').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 document.getElementById('itemUnit').focus();
             }
         });
 
-        document.getElementById('itemUnit').addEventListener('keypress', function(e) {
+        document.getElementById('itemUnit').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 addItem();
             }
         });
 
-        // Focus on first input when page loads
+        // Initialize
         document.getElementById('itemName').focus();
     </script>
 </body>
